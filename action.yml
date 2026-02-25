@@ -1,4 +1,4 @@
-name: 'generate-pacman-game-from-github-contribution-grid'
+name: 'pacman-game'
 description: 'Generates a Pacman game from a github user contributions grid. Output the animation as svg'
 author: 'DuyetBKU'
 
