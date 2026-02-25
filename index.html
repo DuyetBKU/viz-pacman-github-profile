@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="google-site-verification" content="ETILrgmBZ33RjlxJh-ybUFcIlIyKXyefMvxbxC6LmOU" />
+		<title>Pac-Man Contributions Game</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+		<style>
+			body {
+				font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+				line-height: 1.6;
+				color: #333;
+				padding-top: 60px;
+			}
+			.navbar {
+				background-color: #24292e;
+			}
+			.navbar-brand,
+			.nav-link {
+				color: #ffffff !important;
+			}
+			.jumbotron {
+				background-color: #f6f8fa;
+				padding: 2rem;
+				margin-bottom: 2rem;
+			}
+			#canvas,
+			#svgholder {
+				max-width: 100%;
+				height: auto;
+			}
+			.section {
+				margin-bottom: 3rem;
+			}
+			pre {
+				background-color: #f6f8fa;
+				border: 1px solid #e1e4e8;
+				border-radius: 6px;
+				padding: 16px;
+				overflow: auto;
+			}
+		</style>
+	</head>
+	<body>
+		<nav class="navbar navbar-expand-lg fixed-top">
+			<div class="container">
+				<a class="navbar-brand" href="https://abozanona.github.io/pacman-contribution-graph/">Pac-Man Contributions</a>
+				<button
+					class="navbar-toggler"
+					type="button"
+					data-bs-toggle="collapse"
+					data-bs-target="#navbarNav"
+					aria-controls="navbarNav"
+					aria-expanded="false"
+					aria-label="Toggle navigation"
+				>
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav ms-auto">
+						<li class="nav-item">
+							<a class="nav-link" href="https://github.com/abozanona/pacman-contribution-graph/" target="_blank"
+								><i class="fab fa-github"></i> GitHub</a
+							>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="https://buymeacoffee.com/abozanona/" target="_blank"
+								><i class="fas fa-coffee"></i> Buy Me a Coffee</a
+							>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="https://abozanona.me/pacman-contribution-graph/" target="_blank"
+								><i class="fas fa-blog"></i> Blog</a
+							>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<div class="container">
+			<div class="jumbotron">
+				<h1 class="display-4">Pac-Man Contributions Game</h1>
+				<p class="lead">Turn your GitHub or GitLab contributions into an interactive Pac-Man game!</p>
+				<hr class="my-4" />
+				<p>
+					This project allows you to visualize your contribution graph as a playable Pac-Man game. Set up your preferences,
+					generate the game, and have fun while showcasing your coding activity.
+				</p>
+			</div>
+
+			<div class="section">
+				<h2>Game Configuration</h2>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label for="platform" class="form-label">Platform</label>
+							<select id="platform" class="form-select">
+								<option value="github">GitHub</option>
+								<option value="gitlab">GitLab</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label for="output" class="form-label">Output format</label>
+							<select id="output" class="form-select">
+								<option value="canvas">Canvas</option>
+								<option value="svg">SVG</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label for="username" class="form-label">Username:</label>
+							<div class="input-group">
+								<input type="text" id="username" class="form-control" placeholder="Enter Username" />
+								<img
+									id="userAvatar"
+									src=""
+									alt="User Avatar"
+									class="img-thumbnail"
+									style="display: none; width: 40px; height: 40px"
+								/>
+							</div>
+							<div id="userNotFound" class="text-danger" style="display: none">User not found</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label for="theme" class="form-label">Theme:</label>
+							<select id="theme" class="form-select">
+								<option value="github">GitHub</option>
+								<option value="github-dark">GitHub Dark</option>
+								<option value="gitlab">GitLab</option>
+								<option value="gitlab-dark">GitLab Dark</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="mb-5">
+					<button class="btn btn-secondary mb-1" data-bs-toggle="collapse" data-bs-target="#additionalSettings">
+						Toggle Additional Settings
+					</button>
+					<div id="additionalSettings" class="collapse">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label for="enableSounds" class="form-label">Sounds:</label>
+									<select id="enableSounds" class="form-select">
+										<option value="disabled">Disabled</option>
+										<option value="enabled">Enabled</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label for="gameSpeed" class="form-label">Game Speed:</label>
+									<input type="range" class="form-range" id="gameSpeed" min="1" max="10" value="1" />
+									<span id="gameSpeedValue">1</span>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label for="githubAccessToken" class="form-label"
+										>Github Access Token(<a target="__blank" href="https://github.com/settings/tokens">Generate one</a
+										>):
+									</label>
+									<input
+										type="text"
+										id="githubAccessToken"
+										class="form-control"
+										placeholder="Enter Github Access Token"
+									/>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label for="playerStyle" class="form-label">Player Style:</label>
+									<select id="playerStyle" class="form-select">
+										<option value="conservative">Conservative</option>
+										<option value="aggressive">Aggressive</option>
+										<option value="opportunistic">Opportunistic</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<button id="generate" class="btn btn-primary">Generate</button> It might take a second or two
+			</div>
+
+			<div class="section">
+				<h2>Game Output</h2>
+				<canvas id="canvas"></canvas>
+				<div id="svgContainer" style="display: none">
+					<img id="svgholder" />
+					<br />
+					<button id="downloadSvg" class="btn btn-success mt-3" style="display: none">Download SVG</button>
+				</div>
+				<div>Commits count: <span id="points">0</span></div>
+			</div>
+
+			<div class="section">
+				<h2>Configuration Options</h2>
+				<table class="table table-striped table-hover">
+					<thead>
+						<tr>
+							<th>Option</th>
+							<th>Description</th>
+							<th>Possible Values</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><code>platform</code></td>
+							<td>The platform from which to fetch contribution data</td>
+							<td><code>github</code>, <code>gitlab</code></td>
+						</tr>
+						<tr>
+							<td><code>outputFormat</code></td>
+							<td>The format of the game output</td>
+							<td><code>canvas</code>, <code>svg</code></td>
+						</tr>
+						<tr>
+							<td><code>canvas</code></td>
+							<td>The canvas element in DOM to render Pacman game into</td>
+							<td><code>typeof HTMLCanvasElement</code></td>
+						</tr>
+						<tr>
+							<td><code>svgCallback</code></td>
+							<td>A callback function that will get called when SVG picture is generated</td>
+							<td><code>(animatedSVG: string) => void</code></td>
+						</tr>
+						<tr>
+							<td><code>gameOverCallback</code></td>
+							<td>A callback function that will get called when the game is over</td>
+							<td><code>gameOverCallback: () => void;</code></td>
+						</tr>
+						<tr>
+							<td><code>username</code></td>
+							<td>The username of the account to fetch contributions from</td>
+							<td>Any valid GitHub or GitLab username</td>
+						</tr>
+						<tr>
+							<td><code>gameSpeed</code></td>
+							<td>The speed of the Pac-Man character in the game</td>
+							<td>1 (fastest) to 10 (slowest)</td>
+						</tr>
+						<tr>
+							<td><code>gameTheme</code></td>
+							<td>The visual theme of the game</td>
+							<td><code>github</code>, <code>github-dark</code>, <code>gitlab</code>, <code>gitlab-dark</code></td>
+						</tr>
+						<tr>
+							<td><code>playerStyle</code></td>
+							<td>Pacman movement style</td>
+							<td><code>conservative</code>, <code>aggressive</code>, <code>opportunistic</code></td>
+						</tr>
+						<tr>
+							<td><code>enableSounds</code></td>
+							<td>Enable or disable game sounds(only in canvas mode)</td>
+							<td><code>true</code>, <code>false</code></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="section">
+				<h2>How to Use</h2>
+				<h3>Method 1: NPM Package</h3>
+				<pre><code>npm install pacman-contribution-graph
+
+import { PacmanRenderer } from 'pacman-contribution-graph';
+
+const pr = new PacmanRenderer({
+    platform: 'github',
+    username: 'yourusername',
+    canvas: document.getElementById('canvas'),
+    outputFormat: 'canvas',
+    gameTheme: 'github'
+});
+pr.start();
+</code></pre>
+
+				<h3>Method 2: Script loading</h3>
+				<pre><code>&lt;script type="module"&gt;
+import { PacmanRenderer } from 'https://cdn.jsdelivr.net/npm/pacman-contribution-graph/dist/pacman-contribution-graph.min.js';
+const pr = new PacmanRenderer({
+    platform: 'github',
+    username: 'yourusername',
+    canvas: document.getElementById('canvas'),
+    outputFormat: 'canvas',
+    gameTheme: 'github'
+});
+pr.start();
+&lt;/script&gt;</code></pre>
+
+				<h3>Method 3: Iframe/Image Embedding</h3>
+				<pre><code>
+&lt;!-- For canvas --&gt;
+<code>&lt;iframe src="https://abozanona.github.io/pacman-contribution-graph/embeded/canvas.html?username=yourusername&platform=github" 
+    width="800" height="600" frameborder="0"&gt;&lt;/iframe&gt;</code>
+&lt;!-- For SVG --&gt;
+<code>&lt;img src="https://pacman.abozanona.me?username=yourusername" /&gt;</code>
+</code></pre>
+			</div>
+
+			<h3>Method 4: Github Actions</h3>
+			<ol>
+				<li>Create a new repository with the same name as your github username</li>
+				<li>
+					Create <code>.github/workflows/main.yml</code> in your github repo with the following content
+					<pre><code>name: generate pacman game
+
+on:
+	schedule: # run automatically every 24 hours
+	- cron: "0 */24 * * *"
+	workflow_dispatch: # allows to manually run the job at any time
+	push: # run on every push on the master branch
+	branches:
+		- main
+
+jobs:
+	generate:
+	permissions:
+		contents: write
+	runs-on: ubuntu-latest
+	timeout-minutes: 5
+
+	steps:
+		- name: generate pacman-contribution-graph.svg
+		uses: abozanona/pacman-contribution-graph@main
+		with:
+			github_user_name: ${{ github.repository_owner }}
+
+		# push the content of <build_dir> to a branch
+		# the content will be available at https://raw.githubusercontent.com/<github_user>/<repository>/<target_branch>/<file> , or as github page
+		- name: push pacman-contribution-graph.svg to the output branch
+		uses: crazy-max/ghaction-github-pages@v3.1.0
+		with:
+			target_branch: output
+			build_dir: dist
+		env:
+			GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}</code></pre>
+				</li>
+				<li>Create <code>README.md</code> file in your github repo with the following content. Change `[USERNAME]` with your github username
+				<pre><code>&lt;picture>
+  &lt;source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/[USERNAME]/[USERNAME]/output/pacman-contribution-graph-dark.svg">
+  &lt;source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/[USERNAME]/[USERNAME]/output/pacman-contribution-graph.svg">
+  &lt;img alt="pacman contribution graph" src="https://raw.githubusercontent.com/[USERNAME]/[USERNAME]/output/pacman-contribution-graph.svg">
+&lt;/picture>
+
+_generated with [abozanona/pacman-contribution-graph](https://abozanona.github.io/pacman-contribution-graph/)_</code></pre></li>
+<li>That's it! You can also check my github repo <a target="__blank" href="https://github.com/abozanona/abozanona">@abozanona</a> for an example </li>
+			</ol>
+
+			<h3>Method 5: Gitlab Pipeline</h3>
+			<ol>
+				<li>Create a new repository with the same name as your gitlab username</li>
+				<li>
+					Generate & Setup Push Token
+					<ol>
+						<li>Open the repository, and from left sidebar navigate to settings => Access Token tab.</li>
+						<li>Generate a new Access Token with the name `CI/CD Push Token` & scope `write_repository`. Access tokens are only valid for 1 year maximum.</li>
+						<li>From left sidebar navigate to settings => CI/CD.</li>
+						<li>In Variables section, add a new variable with the name `CI_PUSH_TOKEN` and the value of the Access Token. Make sure that the variable is `Masked` & `Protect`.</li>
+					</ol>
+				</li>
+				<li>
+					In the repository, create a <code>.gitlab-ci.yml</code> file with the following content
+					<pre><code>stages:
+	- generate
+	- deploy
+
+variables:
+	GIT_SUBMODULE_STRATEGY: recursive
+
+generate_pacman_graph:
+	stage: generate
+	image: node:20
+	script:
+		- mkdir -p dist
+		- npm install -g pacman-contribution-graph
+		- pacman-contribution-graph --platform gitlab --username "$CI_PROJECT_NAMESPACE" --gameTheme gitlab --output pacman-contribution-graph-light.svg
+		- mv pacman-contribution-graph-light.svg dist/pacman-contribution-graph-light.svg
+		- pacman-contribution-graph --platform gitlab --username "$CI_PROJECT_NAMESPACE" --gameTheme gitlab-dark --output pacman-contribution-graph-dark.svg
+		- mv pacman-contribution-graph-dark.svg dist/pacman-contribution-graph-dark.svg
+	artifacts:
+		paths:
+			- dist/pacman-contribution-graph-light.svg
+			- dist/pacman-contribution-graph-dark.svg
+		expire_in: 1 hour
+	rules:
+		- if: '$CI_PIPELINE_SOURCE == "schedule"'
+		- if: '$CI_PIPELINE_SOURCE == "push"'
+
+deploy_to_readme:
+	stage: deploy
+	image: alpine:latest
+	script:
+		- apk add --no-cache git
+		- mkdir -p output
+		- cp dist/pacman-contribution-graph-light.svg output/
+		- cp dist/pacman-contribution-graph-dark.svg output/
+		- git remote set-url origin https://gitlab-ci-token:${CI_PUSH_TOKEN}@gitlab.com/${CI_PROJECT_PATH}.git
+		- git config --global user.email "pacman-bot@example.com"
+		- git config --global user.name "Pacman Bot"
+		- git add output/pacman-contribution-graph-light.svg output/pacman-contribution-graph-dark.svg
+		- git commit -m "Update Pac-Man contribution graph [ci skip]" || echo "No changes"
+		- git push origin HEAD:main
+	rules:
+		- if: '$CI_PIPELINE_SOURCE == "schedule"'
+		- if: '$CI_PIPELINE_SOURCE == "push"'</code></pre>
+				</li>
+				<li>Create <code>README.md</code> file in your gitlab repo with the following content. Change `[USERNAME]` with your github username
+				<pre><code>&lt;picture>
+  &lt;source media="(prefers-color-scheme: dark)" srcset="https://gitlab.com/[USERNAME]/[USERNAME]/-/raw/main/output/pacman-contribution-graph-dark.svg">
+  &lt;source media="(prefers-color-scheme: light)" srcset="https://gitlab.com/[USERNAME]/[USERNAME]/-/raw/main/output/pacman-contribution-graph-light.svg">
+  &lt;img alt="pacman contribution graph" src="https://gitlab.com/[USERNAME]/[USERNAME]/-/raw/main/output/pacman-contribution-graph-light.svg">
+&lt;/picture>
+
+_generated with [abozanona/pacman-contribution-graph](https://abozanona.github.io/pacman-contribution-graph/)_</code></pre></li>
+<li>
+	Schedule pipeline running
+	<ul>
+		<li>Go to your project in GitLab</li>
+		<li>In the left sidebar, navigate to Build > Pipeline schedules (sometimes under CI/CD > Schedules)</li>
+		<li>Click New schedule</li>
+		<li>
+			In the form:
+			<ul>
+				<li>Interval pattern: Enter a cron expression for daily runs. For example, <code>0 2 \* \* \*</code> to run every day at 2:00 AM (UTC).</li>
+				<li>Timezone: Select your preferred timezone.</li>
+				<li>Target branch: Choose the main branch.</li>
+			</ul>
+		</li>
+		<li>Click Save pipeline schedule (or Create pipeline schedule).</li>
+	</ul>
+</li>
+<li>That's it! You can also check my gitlab repo <a target="__blank" href="https://gitlab.com/abozanona/abozanona">@abozanona</a> for an example </li>
+			</ol>
+			<h3>Method 6: Using cli</h3>
+			<ol>
+				<li>Run <code>npm install -g pacman-contribution-graph</code></li>
+				<li>Run <code>pacman-contribution-graph --platform gitlab --username username --gameTheme github --output output.svg</code></li>
+			</ol>
+
+		</div>
+
+		<footer class="bg-light py-3 mt-5 invisible">
+			<div class="container text-center">
+				<div>
+					<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+					<span id="busuanzi_container_site_pv">Total visits: <span id="busuanzi_value_site_pv"></span></span>
+					<span class="mx-2">|</span>
+					<span id="busuanzi_container_site_uv">Unique visitors: <span id="busuanzi_value_site_uv"></span></span>
+				</div>
+			</div>
+		</footer>
+
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+		<script type="module">
+			import { PacmanRenderer } from './dist/pacman-contribution-graph.js';
+
+			const generateButton = document.getElementById('generate');
+			const usernameInput = document.getElementById('username');
+			const platformSelect = document.getElementById('platform');
+			const outputSelect = document.getElementById('output');
+			const gameSpeedInput = document.getElementById('gameSpeed');
+			const gameSpeedValue = document.getElementById('gameSpeedValue');
+			const themeSelect = document.getElementById('theme');
+			const enableSoundsSelect = document.getElementById('enableSounds');
+			const playerStyleSelect = document.getElementById('playerStyle');
+			const canvas = document.getElementById('canvas');
+			const svgContainer = document.getElementById('svgContainer');
+			const svgHolder = document.getElementById('svgholder');
+			const downloadSvgButton = document.getElementById('downloadSvg');
+			const userAvatar = document.getElementById('userAvatar');
+			const userNotFound = document.getElementById('userNotFound');
+			const points = document.getElementById('points');
+			const githubAccessToken = document.getElementById('githubAccessToken');
+
+			generateButton.disabled = true;
+
+			let currentSvgBlob = null;
+
+			gameSpeedInput.addEventListener('input', () => {
+				gameSpeedValue.textContent = gameSpeedInput.value;
+			});
+
+			usernameInput.addEventListener('input', debounce(checkUser, 500));
+			platformSelect.addEventListener('input', debounce(checkUser, 500));
+
+			function debounce(func, wait) {
+				let timeout;
+				return function executedFunction(...args) {
+					const later = () => {
+						clearTimeout(timeout);
+						func(...args);
+					};
+					clearTimeout(timeout);
+					timeout = setTimeout(later, wait);
+				};
+			}
+
+			async function checkUser() {
+				const username = usernameInput.value;
+				const platform = platformSelect.value;
+				if (!username) {
+					userAvatar.style.display = 'none';
+					userNotFound.style.display = 'none';
+					generateButton.disabled = true;
+					return;
+				}
+
+				if (platform == 'github') {
+					try {
+						const response = await fetch(`https://api.github.com/users/${username}`);
+						if (response.ok) {
+							const data = await response.json();
+							userAvatar.src = data.avatar_url;
+							userAvatar.style.display = 'inline';
+							userNotFound.style.display = 'none';
+							generateButton.disabled = false;
+						} else {
+							throw new Error('User not found');
+						}
+					} catch (error) {
+						userAvatar.style.display = 'none';
+						userNotFound.style.display = 'block';
+						generateButton.disabled = true;
+					}
+				} else {
+					try {
+						const response = await fetch(`https://gitlab.com/api/v4/users?username=${username}`);
+						if (response.ok) {
+							const data = await response.json();
+							if (!data.length) {
+								throw new Error('User not found');
+							}
+							userAvatar.src = data[0].avatar_url;
+							userAvatar.style.display = 'inline';
+							userNotFound.style.display = 'none';
+							generateButton.disabled = false;
+						} else {
+							throw new Error('User not found');
+						}
+					} catch (error) {
+						userAvatar.style.display = 'none';
+						userNotFound.style.display = 'block';
+						generateButton.disabled = true;
+					}
+				}
+			}
+
+			let pr = undefined;
+
+			generateButton.addEventListener('click', () => {
+				const config = {
+					platform: platformSelect.value,
+					username: usernameInput.value,
+					outputFormat: outputSelect.value,
+					gameSpeed: parseInt(gameSpeedInput.value),
+					gameTheme: themeSelect.value,
+					enableSounds: enableSounds.value === 'enabled',
+					playerStyle: playerStyle,
+					githubSettings: {
+						accessToken: githubAccessToken.value
+					}
+				};
+
+				if (config.outputFormat === 'canvas') {
+					canvas.style.display = 'block';
+					svgContainer.style.display = 'none';
+					downloadSvgButton.style.display = 'none';
+					if (pr !== undefined) {
+						pr.stop();
+					}
+					pr = new PacmanRenderer({
+						...config,
+						canvas: canvas,
+						gameOverCallback: () => {
+							console.log('Game Over');
+						},
+						pointsIncreasedCallback: (pointsSum) => {
+							points.innerText = pointsSum;
+						}
+					});
+					pr.start();
+				} else {
+					canvas.style.display = 'none';
+					svgContainer.style.display = 'block';
+					downloadSvgButton.style.display = 'inline-block';
+					if (pr !== undefined) {
+						pr.stop();
+					}
+					pr = new PacmanRenderer({
+						...config,
+						svgCallback: (animatedSVG) => {
+							const svgBlob = new Blob([animatedSVG], {
+								type: 'image/svg+xml;charset=utf-8'
+							});
+							const svgUrl = URL.createObjectURL(svgBlob);
+							svgHolder.src = svgUrl;
+							currentSvgBlob = svgUrl;
+						},
+						gameOverCallback: () => {
+							console.log('Game Over');
+						},
+						pointsIncreasedCallback: (pointsSum) => {
+							points.innerText = pointsSum;
+						}
+					});
+					pr.start();
+				}
+			});
+
+			downloadSvgButton.addEventListener('click', () => {
+				if (currentSvgBlob) {
+					const link = document.createElement('a');
+					link.href = currentSvgBlob;
+					link.download = 'pacman-contributions.svg';
+					document.body.appendChild(link);
+					link.click();
+					document.body.removeChild(link);
+				}
+			});
+		</script>
+	</body>
+</html>
