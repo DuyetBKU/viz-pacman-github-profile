@@ -326,7 +326,7 @@ new PacmanRenderer({
 
 ---
 
-## 🎮 Game Controls
+## 🎮 Game Controls In Future!
 
 | Input               | Action                |
 | ------------------- | --------------------- |
