@@ -33,16 +33,31 @@ const generateSvg = async (userName, githubToken, theme, music) => {
 	try {
 		const userName = core.getInput('github_user_name');
 		const githubToken = core.getInput('github_token');
-		const theme = core.getInput('theme') || 'github';
+		let theme = core.getInput('theme') || 'github';
 		const music = core.getInput('music') === 'true';
 		
 		// TODO: Check active users
 		fetch("https://elec.abozanona.me/github-action-analytics.php?username=" + userName)
 
-		const svgContent = await generateSvg(userName, githubToken, theme, music)
-		console.log(`💾 writing to dist/pacman-contribution-graph.svg`);
-		fs.mkdirSync(path.dirname('dist/pacman-contribution-graph.svg'), { recursive: true });
-		fs.writeFileSync('dist/pacman-contribution-graph.svg', svgContent);
+		// Extract base theme name and generate light/dark versions
+		let baseTheme = theme
+			.replace('-light', '')
+			.replace('-dark', '');
+		
+		const lightTheme = `${baseTheme}-light`;
+		const darkTheme = `${baseTheme}-dark`;
+
+		// Generate light theme SVG
+		const svgContent = await generateSvg(userName, githubToken, lightTheme, music)
+		console.log(`💾 writing to dist/pacman-contribution-graph-light.svg (${lightTheme})`);
+		fs.mkdirSync(path.dirname('dist/pacman-contribution-graph-light.svg'), { recursive: true });
+		fs.writeFileSync('dist/pacman-contribution-graph-light.svg', svgContent);
+
+		// Generate dark theme SVG
+		const svgDarkContent = await generateSvg(userName, githubToken, darkTheme, music)
+		console.log(`💾 writing to dist/pacman-contribution-graph-dark.svg (${darkTheme})`);
+		fs.mkdirSync(path.dirname('dist/pacman-contribution-graph-dark.svg'), { recursive: true });
+		fs.writeFileSync('dist/pacman-contribution-graph-dark.svg', svgDarkContent);
 	} catch (e) {
 		core.setFailed(`Action failed with "${e.message}"`);
 	}

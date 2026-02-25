@@ -95,14 +95,16 @@ export interface Config {
 
 /* ───────────────────────── Themes ──────────────────────────────────── */
 export type ThemeKeys =
-	| 'github'
+	| 'github-light'
 	| 'github-dark'
-	| 'gitlab'
+	| 'gitlab-light'
 	| 'gitlab-dark'
-	| 'dracula'
+	| 'dracula-light'
+	| 'dracula-dark'
 	| 'solarized-light'
 	| 'solarized-dark'
-	| 'monokai'
+	| 'monokai-light'
+	| 'monokai-dark'
 	| 'react-light'
 	| 'react-dark';
 

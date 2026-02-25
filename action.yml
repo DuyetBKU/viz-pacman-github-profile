@@ -15,9 +15,9 @@ inputs:
         required: false
         default: ${{ github.token }}
     theme:
-        description: 'Game theme (github, github-dark, dracula, monokai, react-light, react-dark, etc.)'
+        description: 'Game theme (github-light, github-dark, gitlab-light, gitlab-dark, react-light, react-dark, dracula-light, dracula-dark, monokai-light, monokai-dark, solarized-light, solarized-dark)'
         required: false
-        default: 'github'
+        default: 'github-light'
     music:
         description: 'Enable game music (true or false)'
         required: false

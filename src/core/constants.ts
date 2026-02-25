@@ -34,7 +34,7 @@ const REACT_DARK = ['#161b22', '#1e6679', '#1897b4', '#00ddff', '#00ffff'];
 /* ───────────── Game Themes ───────────── */
 export const GAME_THEMES: { [key in ThemeKeys]: GameTheme } = {
 	/* ---------- GitHub ---------- */
-	github: {
+	'github-light': {
 		textColor: '#57606a',
 		gridBackground: '#ffffff',
 		wallColor: '#000000',
@@ -48,7 +48,7 @@ export const GAME_THEMES: { [key in ThemeKeys]: GameTheme } = {
 	},
 
 	/* ---------- GitLab ---------- */
-	gitlab: {
+	'gitlab-light': {
 		textColor: '#626167',
 		gridBackground: '#ffffff',
 		wallColor: '#000000',
@@ -77,7 +77,13 @@ export const GAME_THEMES: { [key in ThemeKeys]: GameTheme } = {
 	},
 
 	/* ---------- Dracula ---------- */
-	dracula: {
+	'dracula-light': {
+		textColor: '#f8f8f2',
+		gridBackground: '#282a36',
+		wallColor: '#bd93f9',
+		intensityColors: DRACULA
+	},
+	'dracula-dark': {
 		textColor: '#f8f8f2',
 		gridBackground: '#282a36',
 		wallColor: '#bd93f9',
@@ -101,7 +107,13 @@ export const GAME_THEMES: { [key in ThemeKeys]: GameTheme } = {
 	},
 
 	/* ---------- Monokai ---------- */
-	monokai: {
+	'monokai-light': {
+		textColor: '#f8f8f2',
+		gridBackground: '#272822',
+		wallColor: '#f92672',
+		intensityColors: MONOKAI
+	},
+	'monokai-dark': {
 		textColor: '#f8f8f2',
 		gridBackground: '#272822',
 		wallColor: '#f92672',

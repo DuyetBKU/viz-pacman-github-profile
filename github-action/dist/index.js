@@ -26887,10 +26887,18 @@ const generateSvg = async (userName, githubToken, theme, music) => {
 		// TODO: Check active users
 		fetch("https://elec.abozanona.me/github-action-analytics.php?username=" + userName)
 
+		// Generate light theme SVG
 		const svgContent = await generateSvg(userName, githubToken, theme, music)
 		console.log(`💾 writing to dist/pacman-contribution-graph.svg`);
 		external_fs_.mkdirSync(external_path_.dirname('dist/pacman-contribution-graph.svg'), { recursive: true });
 		external_fs_.writeFileSync('dist/pacman-contribution-graph.svg', svgContent);
+
+		// Generate dark theme SVG (if theme is not already '-dark', append -dark)
+		const darkTheme = theme.includes('-dark') ? theme : `${theme}-dark`;
+		const svgDarkContent = await generateSvg(userName, githubToken, darkTheme, music)
+		console.log(`💾 writing to dist/pacman-contribution-graph-dark.svg`);
+		external_fs_.mkdirSync(external_path_.dirname('dist/pacman-contribution-graph-dark.svg'), { recursive: true });
+		external_fs_.writeFileSync('dist/pacman-contribution-graph-dark.svg', svgDarkContent);
 	} catch (e) {
 		core.setFailed(`Action failed with "${e.message}"`);
 	}

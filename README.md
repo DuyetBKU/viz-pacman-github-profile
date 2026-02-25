@@ -89,11 +89,11 @@ jobs:
 
       # 🟢 Generate pacman graph
       - name: generate pacman-contribution-graph.svg
-        uses: DuyetBKU/pacman-contribution-graph@main
+        uses: DuyetBKU/viz-pacman-github-profile@main
         with:
           github_user_name: ${{ github.repository_owner }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          theme: github # Options: github, github-dark, gitlab, gitlab-dark, dracula, solarized-light, solarized-dark, monokai, react-light, react-dark
+          theme: github-light # Options: github-light, github-dark, gitlab-light, gitlab-dark, react-light, react-dark, dracula-light, dracula-dark, monokai-light, monokai-dark, solarized-light, solarized-dark
           music: 'false' # Set to 'true' to enable music
 
       # 🚀 Push to output branch
@@ -137,11 +137,11 @@ jobs:
 
             # 🟢 Generate pacman graph
             - name: generate pacman-contribution-graph.svg
-              uses: DuyetBKU/pacman-contribution-graph@main
+              uses: DuyetBKU/viz-pacman-github-profile@main
               with:
                   github_user_name: ${{ github.repository_owner }}
                   github_token: ${{ secrets.GITHUB_TOKEN }}
-                  theme: github # Options: github, github-dark, gitlab, gitlab-dark, dracula, solarized-light, solarized-dark, monokai, react-light, react-dark
+                  theme: github-light # Options: github-light, github-dark, gitlab-light, gitlab-dark, react-light, react-dark, dracula-light, dracula-dark, monokai-light, monokai-dark, solarized-light, solarized-dark
                   music: 'false' # Set to 'true' to enable music
 
             # 🚀 Push to output branch
@@ -161,35 +161,56 @@ You can customize the theme and other settings:
 ```yaml
 # 🟢 Generate pacman graph
 - name: generate pacman-contribution-graph.svg
-  uses: DuyetBKU/pacman-contribution-graph@main
+  uses: DuyetBKU/viz-pacman-github-profile@main
   with:
       github_user_name: ${{ github.repository_owner }}
       github_token: ${{ secrets.GITHUB_TOKEN }}
-      theme: github # Options: github, github-dark, gitlab, gitlab-dark, dracula, solarized-light, solarized-dark, monokai, react-light, react-dark
-      music: 'false' # Set to 'true' to enable music
-```
-
-For using a Personal Access Token:
-
-```yaml
-env:
+      theme: github-light # Options: github-light, github-dark, gitlab-light, gitlab-dark, react-light, react-dark, dracula-light, dracula-dark, monokai-light, monokai-dark, solarized-light, solarized-dark
     GITHUB_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
 ```
 
 #### Output
 
-The generated SVG file `pacman-contribution-graph.svg` will be automatically:
+The action generates **two SVG files** automatically:
+
+1. **Light theme**: `pacman-contribution-graph-light.svg`
+2. **Dark theme**: `pacman-contribution-graph-dark.svg`
+
+These files will be:
 
 1. **Generated** in the `dist/` directory during workflow execution
 2. **Pushed** to the `output` branch (separate from your main branch)
-3. **Accessible** via: `https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/output/dist/pacman-contribution-graph.svg`
+3. **Accessible** via:
+    - Light: `https://raw.githubusercontent.com/DuyetBKU/viz-pacman-github-profile/output/dist/pacman-contribution-graph-light.svg`
+    - Dark: `https://raw.githubusercontent.com/DuyetBKU/viz-pacman-github-profile/output/dist/pacman-contribution-graph-dark.svg`
 
 You can then:
 
-- Display it in your README:
-    ```markdown
-    ![Pacman Contributions](https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/output/dist/pacman-contribution-graph.svg)
+- Display it in your README with smart light/dark theme support (replace `DuyetBKU` with your GitHub username when you fork):
+
+    ```html
+    <picture>
+    	<source
+    		media="(prefers-color-scheme: dark)"
+    		srcset="https://raw.githubusercontent.com/DuyetBKU/viz-pacman-github-profile/output/dist/pacman-contribution-graph-dark.svg"
+    	/>
+    	<source
+    		media="(prefers-color-scheme: light)"
+    		srcset="https://raw.githubusercontent.com/DuyetBKU/viz-pacman-github-profile/output/dist/pacman-contribution-graph-light.svg"
+    	/>
+    	<img
+    		alt="pacman contribution graph"
+    		src="https://raw.githubusercontent.com/DuyetBKU/viz-pacman-github-profile/output/dist/pacman-contribution-graph-light.svg"
+    	/>
+    </picture>
     ```
+
+    Or simple markdown:
+
+    ```markdown
+    ![Pacman Contributions](https://raw.githubusercontent.com/DuyetBKU/viz-pacman-github-profile/output/dist/pacman-contribution-graph-light.svg)
+    ```
+
 - Use it in your profile README
 - Share the direct link to the SVG file
 
@@ -197,14 +218,16 @@ You can then:
 
 | Theme             | Style            | Best For                 |
 | ----------------- | ---------------- | ------------------------ |
-| `github`          | Light gray/green | GitHub light theme users |
+| `github-light`    | Light gray/green | GitHub light theme users |
 | `github-dark`     | Dark gray/green  | GitHub dark theme users  |
-| `gitlab`          | Light blue       | GitLab light theme users |
+| `gitlab-light`    | Light blue       | GitLab light theme users |
 | `gitlab-dark`     | Dark blue        | GitLab dark theme users  |
-| `dracula`         | Purple/pink      | Dark theme lovers        |
+| `dracula-light`   | Purple/pink      | Dracula light theme      |
+| `dracula-dark`    | Purple/pink dark | Dracula dark theme       |
 | `solarized-light` | Warm yellow      | Solarized light users    |
 | `solarized-dark`  | Warm colors      | Solarized dark users     |
-| `monokai`         | Neon colors      | Code editor enthusiasts  |
+| `monokai-light`   | Neon colors      | Monokai light theme      |
+| `monokai-dark`    | Neon colors      | Monokai dark theme       |
 | `react-light`     | Light cyan       | React fans (light)       |
 | `react-dark`      | Dark cyan        | React fans (dark)        |
 
@@ -331,8 +354,8 @@ on:
 ### Setup
 
 ```bash
-git clone https://github.com/DuyetBKU/pacman-contribution-graph.git
-cd pacman-contribution-graph
+git clone https://github.com/DuyetBKU/viz-pacman-github-profile.git
+cd viz-pacman-github-profile
 npm install
 ```
 
