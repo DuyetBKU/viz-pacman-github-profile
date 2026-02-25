@@ -26881,22 +26881,29 @@ const generateSvg = async (userName, githubToken, theme, music) => {
 	try {
 		const userName = core.getInput('github_user_name');
 		const githubToken = core.getInput('github_token');
-		const theme = core.getInput('theme') || 'github';
+		let theme = core.getInput('theme') || 'github';
 		const music = core.getInput('music') === 'true';
 		
 		// TODO: Check active users
 		fetch("https://elec.abozanona.me/github-action-analytics.php?username=" + userName)
 
-		// Generate light theme SVG
-		const svgContent = await generateSvg(userName, githubToken, theme, music)
-		console.log(`💾 writing to dist/pacman-contribution-graph.svg`);
-		external_fs_.mkdirSync(external_path_.dirname('dist/pacman-contribution-graph.svg'), { recursive: true });
-		external_fs_.writeFileSync('dist/pacman-contribution-graph.svg', svgContent);
+		// Extract base theme name and generate light/dark versions
+		let baseTheme = theme
+			.replace('-light', '')
+			.replace('-dark', '');
+		
+		const lightTheme = `${baseTheme}-light`;
+		const darkTheme = `${baseTheme}-dark`;
 
-		// Generate dark theme SVG (if theme is not already '-dark', append -dark)
-		const darkTheme = theme.includes('-dark') ? theme : `${theme}-dark`;
+		// Generate light theme SVG
+		const svgContent = await generateSvg(userName, githubToken, lightTheme, music)
+		console.log(`💾 writing to dist/pacman-contribution-graph-light.svg (${lightTheme})`);
+		external_fs_.mkdirSync(external_path_.dirname('dist/pacman-contribution-graph-light.svg'), { recursive: true });
+		external_fs_.writeFileSync('dist/pacman-contribution-graph-light.svg', svgContent);
+
+		// Generate dark theme SVG
 		const svgDarkContent = await generateSvg(userName, githubToken, darkTheme, music)
-		console.log(`💾 writing to dist/pacman-contribution-graph-dark.svg`);
+		console.log(`💾 writing to dist/pacman-contribution-graph-dark.svg (${darkTheme})`);
 		external_fs_.mkdirSync(external_path_.dirname('dist/pacman-contribution-graph-dark.svg'), { recursive: true });
 		external_fs_.writeFileSync('dist/pacman-contribution-graph-dark.svg', svgDarkContent);
 	} catch (e) {
