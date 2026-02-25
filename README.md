@@ -202,28 +202,17 @@ You can then:
 
 - Display it in your README with smart light/dark theme support (replace `DuyetBKU` with your GitHub username when you fork):
 
-    ```html
-    <picture>
-    	<source
-    		media="(prefers-color-scheme: dark)"
-    		srcset="https://raw.githubusercontent.com/DuyetBKU/viz-pacman-github-profile/output/dist/pacman-contribution-graph-dark.svg"
-    	/>
-    	<source
-    		media="(prefers-color-scheme: light)"
-    		srcset="https://raw.githubusercontent.com/DuyetBKU/viz-pacman-github-profile/output/dist/pacman-contribution-graph-light.svg"
-    	/>
-    	<img
-    		alt="pacman contribution graph"
-    		src="https://raw.githubusercontent.com/DuyetBKU/viz-pacman-github-profile/output/dist/pacman-contribution-graph-light.svg"
-    	/>
-    </picture>
-    ```
+<picture>
+	<source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/DuyetBKU/viz-pacman-github-profile/output/dist/pacman-contribution-graph-dark.svg" />
+	<source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/DuyetBKU/viz-pacman-github-profile/output/dist/pacman-contribution-graph-light.svg" />
+	<img alt="pacman contribution graph" src="https://raw.githubusercontent.com/DuyetBKU/viz-pacman-github-profile/output/dist/pacman-contribution-graph-light.svg" />
+</picture>
 
-    Or simple markdown:
+Or simple markdown:
 
-    ```markdown
-    ![Pacman Contributions](https://raw.githubusercontent.com/DuyetBKU/viz-pacman-github-profile/output/dist/pacman-contribution-graph-light.svg)
-    ```
+```markdown
+![Pacman Contributions](https://raw.githubusercontent.com/DuyetBKU/viz-pacman-github-profile/output/dist/pacman-contribution-graph-light.svg)
+```
 
 - Use it in your profile README
 - Share the direct link to the SVG file
