@@ -14,3 +14,11 @@ inputs:
         description: 'github token used to fetch the contribution calendar. Default to the action token if empty.'
         required: false
         default: ${{ github.token }}
+    theme:
+        description: 'Game theme (github, github-dark, dracula, monokai, react-light, react-dark, etc.)'
+        required: false
+        default: 'github'
+    music:
+        description: 'Enable game music (true or false)'
+        required: false
+        default: 'false'

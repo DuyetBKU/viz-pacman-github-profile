@@ -92,8 +92,9 @@ jobs:
         uses: DuyetBKU/pacman-contribution-graph@main
         with:
           github_user_name: ${{ github.repository_owner }}
-          include_all_branches: false
-          theme: neon
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          theme: github # Options: github, github-dark, gitlab, gitlab-dark, dracula, solarized-light, solarized-dark, monokai, react-light, react-dark
+          music: 'false' # Set to 'true' to enable music
 
       # 🚀 Push to output branch
       - name: push pacman-contribution-graph.svg to the output branch
@@ -139,8 +140,9 @@ jobs:
               uses: DuyetBKU/pacman-contribution-graph@main
               with:
                   github_user_name: ${{ github.repository_owner }}
-                  include_all_branches: false
-                  theme: neon
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  theme: github # Options: github, github-dark, gitlab, gitlab-dark, dracula, solarized-light, solarized-dark, monokai, react-light, react-dark
+                  music: 'false' # Set to 'true' to enable music
 
             # 🚀 Push to output branch
             - name: push pacman-contribution-graph.svg to the output branch
@@ -162,8 +164,9 @@ You can customize the theme and other settings:
   uses: DuyetBKU/pacman-contribution-graph@main
   with:
       github_user_name: ${{ github.repository_owner }}
-      include_all_branches: false
-      theme: neon # Options: github, github-dark, dracula, monokai, neon, etc.
+      github_token: ${{ secrets.GITHUB_TOKEN }}
+      theme: github # Options: github, github-dark, gitlab, gitlab-dark, dracula, solarized-light, solarized-dark, monokai, react-light, react-dark
+      music: 'false' # Set to 'true' to enable music
 ```
 
 For using a Personal Access Token:

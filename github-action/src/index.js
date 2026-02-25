@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import { PacmanRenderer } from 'pacman-contribution-graph';
 import * as path from 'path';
 
-const generateSvg = async (userName, githubToken, theme, playerStyle) => {
+const generateSvg = async (userName, githubToken, theme, music) => {
 	return new Promise((resolve, reject) => {
 		let generatedSvg = '';
 		const conf = {
@@ -12,7 +12,7 @@ const generateSvg = async (userName, githubToken, theme, playerStyle) => {
 			outputFormat: "svg",
 			gameSpeed: 1,
 			gameTheme: theme,
-			playerStyle,
+			enableSounds: music,
 			githubSettings: {
 				accessToken: githubToken
 			},
@@ -31,22 +31,18 @@ const generateSvg = async (userName, githubToken, theme, playerStyle) => {
 
 (async () => {
 	try {
-		let svgContent = ''
 		const userName = core.getInput('github_user_name');
 		const githubToken = core.getInput('github_token');
-		const playerStyle = core.getInput('player_style') || 'oportunista';
+		const theme = core.getInput('theme') || 'github';
+		const music = core.getInput('music') === 'true';
+		
 		// TODO: Check active users
 		fetch("https://elec.abozanona.me/github-action-analytics.php?username=" + userName)
 
-		svgContent = await generateSvg(userName, githubToken, "github", playerStyle)
+		const svgContent = await generateSvg(userName, githubToken, theme, music)
 		console.log(`💾 writing to dist/pacman-contribution-graph.svg`);
 		fs.mkdirSync(path.dirname('dist/pacman-contribution-graph.svg'), { recursive: true });
 		fs.writeFileSync('dist/pacman-contribution-graph.svg', svgContent);
-
-		svgContent = await generateSvg(userName, githubToken, "github-dark", playerStyle)
-		console.log(`💾 writing to dist/pacman-contribution-graph-dark.svg`);
-		fs.mkdirSync(path.dirname('dist/pacman-contribution-graph-dark.svg'), { recursive: true });
-		fs.writeFileSync('dist/pacman-contribution-graph-dark.svg', svgContent);
 	} catch (e) {
 		core.setFailed(`Action failed with "${e.message}"`);
 	}
