@@ -330,15 +330,15 @@ on:
 ```bash
 git clone https://github.com/DuyetBKU/pacman-contribution-graph.git
 cd pacman-contribution-graph
-pnpm install
+npm install
 ```
 
 ### Build
 
 ```bash
-pnpm run build       # Production build
-pnpm run dev         # Development with watch
-pnpm run test        # Run tests
+npm run build       # Production build
+npm run dev         # Development with watch
+npm run test        # Run tests
 ```
 
 ### Project Structure

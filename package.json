@@ -2,8 +2,8 @@
 	"name": "pacman-contribution-graph",
 	"version": "3.0.0",
 	"description": "Generates a pacman game from a github or gitlab user contributions grid",
-	"repository": "github:DuyetBKU/pacman-contribution-graph",
-	"homepage": "https://github.com/DuyetBKU/pacman-contribution-graph",
+	"repository": "github:DuyetBKU/viz-pacman-github-profile",
+	"homepage": "https://github.com/DuyetBKU/viz-pacman-github-profile",
 	"type": "module",
 	"main": "dist/pacman-contribution-graph.min.js",
 	"types": "dist/index.d.ts",
@@ -31,7 +31,7 @@
 		"build": "webpack --config webpack.prod.js",
 		"dev": "webpack --progress --config webpack.dev.js",
 		"prepublishOnly": "npm run build",
-		"build-action": "pnpm run --prefix ./github-action build",
+		"build-action": "npm run --prefix ./github-action build",
 		"test": "jest --coverage"
 	},
 	"devDependencies": {
@@ -48,7 +48,6 @@
 		"webpack-merge": "^6.0.1"
 	},
 	"author": "DuyetBKU",
-	"packageManager": "pnpm@9.15.4",
 	"dependencies": {
 		"yargs": "^18.0.0"
 	},
