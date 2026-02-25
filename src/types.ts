@@ -94,7 +94,17 @@ export interface Config {
 }
 
 /* ───────────────────────── Themes ──────────────────────────────────── */
-export type ThemeKeys = 'github' | 'github-dark' | 'gitlab' | 'gitlab-dark' | 'dracula' | 'solarized-light' | 'solarized-dark' | 'monokai' | 'react-light' | 'react-dark';
+export type ThemeKeys =
+	| 'github'
+	| 'github-dark'
+	| 'gitlab'
+	| 'gitlab-dark'
+	| 'dracula'
+	| 'solarized-light'
+	| 'solarized-dark'
+	| 'monokai'
+	| 'react-light'
+	| 'react-dark';
 
 export interface GameTheme {
 	textColor: string;

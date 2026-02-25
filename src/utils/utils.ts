@@ -103,12 +103,12 @@ export const buildMonthLabels = (store: StoreType) => {
 
 	// Keep only the last GRID_WIDTH labels
 	const slicedLabels = realWidth > GRID_WIDTH ? labels.slice(realWidth - GRID_WIDTH) : labels;
-	
+
 	// Pad with empty strings if needed to maintain GRID_WIDTH length
 	while (slicedLabels.length < GRID_WIDTH) {
 		slicedLabels.unshift('');
 	}
-	
+
 	store.monthLabels = slicedLabels;
 };
 
