@@ -7,9 +7,9 @@ const generateSvg = async (userName, githubToken, theme, music) => {
 	return new Promise((resolve, reject) => {
 		let generatedSvg = '';
 		const conf = {
-			platform: "github",
+			platform: 'github',
 			username: userName,
-			outputFormat: "svg",
+			outputFormat: 'svg',
 			gameSpeed: 1,
 			gameTheme: theme,
 			enableSounds: music,
@@ -22,12 +22,12 @@ const generateSvg = async (userName, githubToken, theme, music) => {
 			gameOverCallback: () => {
 				resolve(generatedSvg);
 			}
-		}
+		};
 
-		const renderer = new PacmanRenderer(conf)
-		renderer.start()
+		const renderer = new PacmanRenderer(conf);
+		renderer.start();
 	});
-}
+};
 
 (async () => {
 	try {
@@ -35,26 +35,24 @@ const generateSvg = async (userName, githubToken, theme, music) => {
 		const githubToken = core.getInput('github_token');
 		let theme = core.getInput('theme') || 'github';
 		const music = core.getInput('music') === 'true';
-		
+
 		// TODO: Check active users
-		fetch("https://elec.abozanona.me/github-action-analytics.php?username=" + userName)
+		fetch('https://elec.abozanona.me/github-action-analytics.php?username=' + userName);
 
 		// Extract base theme name and generate light/dark versions
-		let baseTheme = theme
-			.replace('-light', '')
-			.replace('-dark', '');
-		
+		let baseTheme = theme.replace('-light', '').replace('-dark', '');
+
 		const lightTheme = `${baseTheme}-light`;
 		const darkTheme = `${baseTheme}-dark`;
 
 		// Generate light theme SVG
-		const svgContent = await generateSvg(userName, githubToken, lightTheme, music)
+		const svgContent = await generateSvg(userName, githubToken, lightTheme, music);
 		console.log(`💾 writing to dist/pacman-contribution-graph-light.svg (${lightTheme})`);
 		fs.mkdirSync(path.dirname('dist/pacman-contribution-graph-light.svg'), { recursive: true });
 		fs.writeFileSync('dist/pacman-contribution-graph-light.svg', svgContent);
 
 		// Generate dark theme SVG
-		const svgDarkContent = await generateSvg(userName, githubToken, darkTheme, music)
+		const svgDarkContent = await generateSvg(userName, githubToken, darkTheme, music);
 		console.log(`💾 writing to dist/pacman-contribution-graph-dark.svg (${darkTheme})`);
 		fs.mkdirSync(path.dirname('dist/pacman-contribution-graph-dark.svg'), { recursive: true });
 		fs.writeFileSync('dist/pacman-contribution-graph-dark.svg', svgDarkContent);
