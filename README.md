@@ -47,7 +47,19 @@ npm install pacman-contribution-graph
 ### Option 2: CLI Tool
 
 ```bash
-# Install globally or use npx
+# Option A: Install globally
+npm install -g pacman-contribution-graph
+pacman-contribution-graph \
+  --platform github \
+  --username torvalds \
+  --gameTheme react-dark \
+  --output pacman.svg
+```
+
+Or use npx without installing:
+
+```bash
+# Option B: Use npx (without installing)
 npx pacman-contribution-graph \
   --platform github \
   --username torvalds \
@@ -58,6 +70,8 @@ npx pacman-contribution-graph \
 ### Option 3: GitHub Action
 
 Use this GitHub Action to automatically generate Pac-Man contribution graphs in your workflow.
+
+> **Note**: This section is for **users** of this action. If you're using this action in your own repository, follow these steps.
 
 #### Quick Setup (Copy & Paste)
 
