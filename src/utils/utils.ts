@@ -7,7 +7,7 @@ const weeksBetween = (start: Date, end: Date) => Math.floor((end.getTime() - sta
 const truncateToUTCDate = (d: Date) => new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
 
 /* ───────────────────────── Theme and helpers ────────────────────── */
-export const getCurrentTheme = (store: StoreType): GameTheme => GAME_THEMES[store.config.gameTheme] ?? GAME_THEMES['github'];
+export const getCurrentTheme = (store: StoreType): GameTheme => GAME_THEMES[store.config.gameTheme] ?? GAME_THEMES['github-light'];
 
 export const levelToIndex = (level: ContributionLevel): number => {
 	switch (level) {

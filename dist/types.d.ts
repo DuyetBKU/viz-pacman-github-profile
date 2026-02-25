@@ -80,7 +80,7 @@ export interface Config {
     maxHistorySize?: number;
     playerStyle: PlayerStyle;
 }
-export type ThemeKeys = 'github' | 'github-dark' | 'gitlab' | 'gitlab-dark' | 'dracula' | 'solarized-light' | 'solarized-dark' | 'monokai' | 'react-light' | 'react-dark';
+export type ThemeKeys = 'github-light' | 'github-dark' | 'gitlab-light' | 'gitlab-dark' | 'dracula-light' | 'dracula-dark' | 'solarized-light' | 'solarized-dark' | 'monokai-light' | 'monokai-dark' | 'react-light' | 'react-dark';
 export interface GameTheme {
     textColor: string;
     gridBackground: string;
