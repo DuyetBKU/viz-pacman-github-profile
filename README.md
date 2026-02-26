@@ -5,6 +5,14 @@ Transform your GitHub/GitLab contribution graph into an interactive Pac-Man game
 > **Original Project**: [abozanona/pacman-contribution-graph](https://github.com/abozanona/pacman-contribution-graph)  
 > **Enhanced Edition**: DuyetBKU - Added light/dark theme variants for all themes
 
+<picture>
+   <!--  If DARK MODE → dark.svg -->
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/DuyetBKU/.github/output/pacman-contribution-graph-dark.svg">
+  <!-- FALLBACK: Light mode → light.svg -->
+  <img src="https://raw.githubusercontent.com/DuyetBKU/.github/output/pacman-contribution-graph-light.svg">
+  
+</picture>
+
 ## ✨ Features
 
 - 🎮 **Interactive Game**: Play Pac-Man on your contribution calendar
